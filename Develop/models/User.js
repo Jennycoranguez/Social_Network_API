@@ -1,18 +1,18 @@
 const { Schema, Types, model} = require('mongoose');
-
+const {format_date} = require('./');
 const userSchema = new Schema(
   {
     username: {
       type: String,
       unique: true,
       required: true,
-      trim: true 
+      trimmed: true 
     },
     email: {
       type: String,
       required: true,
       unique: true,
-      
+      match:[/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
     },
     thoughts: {
       type: Schema.Types.ObjectId,
@@ -32,11 +32,8 @@ const userSchema = new Schema(
     id: false
   }
 );
-
-userSchema.vitural('friendCount').get(function)
+const Users = model('Users, UsersSchema');
+UserSchema.virtual('friendCount').get(function() {
   return this.friends.length;
-})
-
-const users = model('users, usersSchema');
-
-module.exports = assignmentSchema;
+});
+module.exports =User;
